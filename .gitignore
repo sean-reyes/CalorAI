@@ -1,0 +1,6 @@
+# Hide environment variables and Gemini API keys
+.env
+
+# Hide system-generated file clutter
+.DS_Store
+Thumbs.db
