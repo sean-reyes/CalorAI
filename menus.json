@@ -1,0 +1,481 @@
+{
+    "breakfast_menu": {
+        "NO SELECTION/SKIP": {
+            "calories": 0,
+            "protein": 0,
+            "fats": 0,
+            "carbs": 0,
+            "meat": "None"
+        },
+        "WAFFLES \n\n Calories: 480 | Protein: 14g | Fats: 15g": {
+            "calories": 480,
+            "protein": 14,
+            "fats": 15,
+            "carbs": 40,
+            "meat": "None"
+        },
+        "EGGS AND BACON \n\n Calories: 640 | Protein: 35g | Fats: 40g": {
+            "calories": 640,
+            "protein": 35,
+            "fats": 40,
+            "carbs": 22,
+            "meat": "Pork"
+        },
+        "PANCAKES \n\n Calories: 520 | Protein: 16g | Fats: 25g": {
+            "calories": 520,
+            "protein": 16,
+            "fats": 25,
+            "carbs": 43,
+            "meat": "None"
+        },
+        "BLUEBERRY MUFFIN \n\n Calories: 340 | Protein: 6g | Fats: 9g": {
+            "calories": 340,
+            "protein": 6,
+            "fats": 9,
+            "carbs": 23,
+            "meat": "None"
+        },
+        "CHICKEN AND WAFFLES \n\n Calories: 630 | Protein: 30g | Fats: 43g": {
+            "calories": 630,
+            "protein": 30,
+            "fats": 43,
+            "carbs": 40,
+            "meat": "Chicken"
+        },
+        "BREAKFAST BURRITO \n\n Calories: 600 | Protein: 22g | Fats: 20g": {
+            "calories": 600,
+            "protein": 22,
+            "fats": 20,
+            "carbs": 12,
+            "meat": "Pork"
+        },
+        "SAUSAGE AND BEANS \n\n Calories: 530 | Protein: 35g | Fats: 40g": {
+            "calories": 530,
+            "protein": 35,
+            "fats": 40,
+            "carbs": 55,
+            "meat": "Pork"
+        },
+        "SLICED MIXED FRUITS \n\n Calories: 220 | Protein: 3g | Fats: 3g": {
+            "calories": 220,
+            "protein": 2,
+            "fats": 3,
+            "carbs": 5,
+            "meat": "None"
+        },
+        "OATMEAL AND MILK \n\n Calories: 400 | Protein: 8g | Fats: 10g": {
+            "calories": 400,
+            "protein": 8,
+            "fats": 10,
+            "carbs": 22,
+            "meat": "None"
+        },
+        "CEREAL AND MILK \n\n Calories: 380 | Protein: 5g | Fats: 10g": {
+            "calories": 380,
+            "protein": 5,
+            "fats": 10,
+            "carbs": 23,
+            "meat": "None"
+        },
+        "CORNED BEEF AND EGGS \n\n Calories: 420 | Protein: 35g | Fats: 45g": {
+            "calories": 420,
+            "protein": 35,
+            "fats": 45,
+            "carbs": 55,
+            "meat": "Beef"
+        },
+        "BEEF BURRITOS \n\n Calories: 500 | Protein: 24g | Fats: 35g": {
+            "calories": 500,
+            "protein": 24,
+            "fats": 35,
+            "carbs": 47,
+            "meat": "Beef"
+        },
+        "AVOCADO SALMON BAGEL\n\n Calories: 380 | Protein: 25g | Fats: 34g": {
+            "calories": 380,
+            "protein": 25,
+            "fats": 34,
+            "carbs": 47,
+            "meat": "Fish"
+        },
+        "TUNA SALAD SANDWICH \n\n Calories: 480 | Protein: 32g | Fats: 48g": {
+            "calories": 480,
+            "protein": 32,
+            "fats": 48,
+            "carbs": 58,
+            "meat": "Fish"
+        },
+        "CHICKEN NOODLE SOUP \n\n Calories: 320 | Protein: 21g | Fats: 30g": {
+            "calories": 320,
+            "protein": 21,
+            "fats": 30,
+            "carbs": 42,
+            "meat": "Chicken"
+        }
+    },
+    "morning_tea_menu": {
+        "NO SELECTION/SKIP": {
+            "calories": 0,
+            "protein": 0,
+            "fats": 0,
+            "carbs": 0,
+            "meat": "None"
+        },
+        "SCONES WITH JAM\n\n Calories: 450 | Protein: 3g | Fats: 4g": {
+            "calories": 450,
+            "protein": 3,
+            "fats": 4,
+            "carbs": 20,
+            "meat": "None"
+        },
+        "BLUEBERRY MUFFIN \n\n Calories: 340 | Protein: 4g | Fats: 5g": {
+            "calories": 340,
+            "protein": 4,
+            "fats": 5,
+            "carbs": 10,
+            "meat": "None"
+        },
+        "CROISSANT \n\n Calories: 400 | Protein: 10g | Fats: 15g": {
+            "calories": 400,
+            "protein": 10,
+            "fats": 15,
+            "carbs": 30,
+            "meat": "None"
+        },
+        "PAIN AU CHOCOLAT \n\n Calories: 520 | Protein: 10g | Fats: 15g": {
+            "calories": 520,
+            "protein": 10,
+            "fats": 15,
+            "carbs": 30,
+            "meat": "None"
+        },
+        "GLAZED DONUT \n\n Calories: 300 | Protein: 5g | Fats: 3g": {
+            "calories": 300,
+            "protein": 5,
+            "fats": 3,
+            "carbs": 10,
+            "meat": "None"
+        },
+        "STRAWBERRY DONUT \n\n Calories: 350 | Protein: 5g | Fats: 4g": {
+            "calories": 350,
+            "protein": 5,
+            "fats": 4,
+            "carbs": 12,
+            "meat": "None"
+        },
+        "CHOCOLATE CAKE \n\n Calories: 320 | Protein: 4g | Fats: 5g": {
+            "calories": 320,
+            "protein": 4,
+            "fats": 5,
+            "carbs": 21,
+            "meat": "None"
+        },
+        "FRUIT SLICES \n\n Calories: 210 | Protein: 2g | Fats: 1g": {
+            "calories": 210,
+            "protein": 2,
+            "fats": 1,
+            "carbs": 3,
+            "meat": "None"
+        },
+        "BISCUITS/COOKIES \n\n Calories: 300 | Protein: 1g | Fats: 5g": {
+            "calories": 300,
+            "protein": 1,
+            "fats": 5,
+            "carbs": 15,
+            "meat": "None"
+        }
+    },
+    "lunch_menu": {
+        "NO SELECTION/SKIP": {
+            "calories": 0,
+            "protein": 0,
+            "fats": 0,
+            "carbs": 0,
+            "meat": "None"
+        },
+        "AGLIO OLIO PASTA \n\n Calories: 520 | Protein: 10g | Fats: 15g": {
+            "calories": 520,
+            "protein": 10,
+            "fats": 15,
+            "carbs": 40,
+            "meat": "Vegan"
+        },
+        "CHEESEBURGER \n\n Calories: 650 | Protein: 25g | Fats: 30g": {
+            "calories": 650,
+            "protein": 25,
+            "fats": 30,
+            "carbs": 50,
+            "meat": "Beef"
+        },
+        "CAESAR SALAD \n\n Calories: 400 | Protein: 12g | Fats: 20g": {
+            "calories": 400,
+            "protein": 12,
+            "fats": 20,
+            "carbs": 34,
+            "meat": "Chicken"
+        },
+        "CHICKEN SOUP \n\n Calories: 250 | Protein: 7g | Fats: 12g": {
+            "calories": 250,
+            "protein": 7,
+            "fats": 12,
+            "carbs": 23,
+            "meat": "Chicken"
+        },
+        "CREAMY CARBONARA \n\n Calories: 630 | Protein: 30g | Fats: 46g": {
+            "calories": 630,
+            "protein": 30,
+            "fats": 46,
+            "carbs": 54,
+            "meat": "Pork"
+        },
+        "SPAG AND MEATBALLS \n\n Calories: 730 | Protein: 45g | Fats: 55g": {
+            "calories": 730,
+            "protein": 45,
+            "fats": 55,
+            "carbs": 60,
+            "meat": "Pork"
+        },
+        "CHICKEN ALFREDO \n\n Calories: 650 | Protein: 40g | Fats: 55g": {
+            "calories": 650,
+            "protein": 40,
+            "fats": 55,
+            "carbs": 68,
+            "meat": "Chicken"
+        },
+        "FISH AND CHIPS \n\n Calories: 600 | Protein: 40g | Fats: 52g": {
+            "calories": 600,
+            "protein": 40,
+            "fats": 52,
+            "carbs": 62,
+            "meat": "Fish"
+        },
+        "SMOKED SALMON \n\n Calories: 530 | Protein: 35g | Fats: 42g ": {
+            "calories": 530,
+            "protein": 35,
+            "fats": 42,
+            "carbs": 58,
+            "meat": "Fish"
+        },
+        "GARLIC BAKED FISH \n\n Calories: 560 | Protein: 35g | Fats: 45g": {
+            "calories": 560,
+            "protein": 35,
+            "fats": 45,
+            "carbs": 52,
+            "meat": "Fish"
+        },
+        "CHICKPEA SANDWICH \n\n Calories: 620 | Protein: 48g | Fats: 57g": {
+            "calories": 620,
+            "protein": 48,
+            "fats": 57,
+            "carbs": 40,
+            "meat": "Vegan"
+        },
+        "BEEF TACOS \n\n Calories: 500 | Protein: 30g | Fats: 40g": {
+            "calories": 500,
+            "protein": 30,
+            "fats": 40,
+            "carbs": 45,
+            "meat": "Beef"
+        },
+        "PHILLY CHEESESTEAK \n\n Calories: 700 | Protein: 50g | Fats: 60g": {
+            "calories": 700,
+            "protein": 50,
+            "fats": 60,
+            "carbs": 65,
+            "meat": "Beef"
+        },
+        "BUTTER CHICKEN \n\n Calories: 500 | Protein: 40g | Fats: 50g": {
+            "calories": 500,
+            "protein": 40,
+            "fats": 50,
+            "carbs": 45,
+            "meat": "Chicken"
+        },
+        "CHAR SIU AND RICE \n\n Calories: 630 | Protein: 43g | Fats: 50g": {
+            "calories": 630,
+            "protein": 43,
+            "fats": 50,
+            "carbs": 50,
+            "meat": "Pork"
+        }
+    },
+    "dessert_menu": {
+        "NO SELECTION/SKIP": {
+            "calories": 0,
+            "protein": 0,
+            "fats": 0,
+            "carbs": 0,
+            "meat": "None"
+        },
+        "SCONES WITH JAM\n\n Calories: 450 | Protein: 3g | Fats: 4g": {
+            "calories": 450,
+            "protein": 3,
+            "fats": 4,
+            "carbs": 20,
+            "meat": "None"
+        },
+        "BLUEBERRY MUFFIN \n\n Calories: 340 | Protein: 4g | Fats: 5g": {
+            "calories": 340,
+            "protein": 4,
+            "fats": 5,
+            "carbs": 10,
+            "meat": "None"
+        },
+        "CROISSANT \n\n Calories: 400 | Protein: 10g | Fats: 15g": {
+            "calories": 400,
+            "protein": 10,
+            "fats": 15,
+            "carbs": 30,
+            "meat": "None"
+        },
+        "PAIN AU CHOCOLAT \n\n Calories: 520 | Protein: 10g | Fats: 15g": {
+            "calories": 520,
+            "protein": 10,
+            "fats": 15,
+            "carbs": 30,
+            "meat": "None"
+        },
+        "GLAZED DONUT \n\n Calories: 300 | Protein: 5g | Fats: 3g": {
+            "calories": 300,
+            "protein": 5,
+            "fats": 3,
+            "carbs": 10,
+            "meat": "None"
+        },
+        "STRAWBERRY DONUT \n\n Calories: 350 | Protein: 5g | Fats: 4g": {
+            "calories": 350,
+            "protein": 5,
+            "fats": 4,
+            "carbs": 12,
+            "meat": "None"
+        },
+        "CHOCOLATE CAKE \n\n Calories: 320 | Protein: 4g | Fats: 5g": {
+            "calories": 320,
+            "protein": 4,
+            "fats": 5,
+            "carbs": 21,
+            "meat": "None"
+        },
+        "FRUIT SLICES \n\n Calories: 210 | Protein: 2g | Fats: 1g": {
+            "calories": 210,
+            "protein": 2,
+            "fats": 1,
+            "carbs": 3,
+            "meat": "None"
+        },
+        "BISCUITS/COOKIES \n\n Calories: 300 | Protein: 1g | Fats: 5g": {
+            "calories": 300,
+            "protein": 1,
+            "fats": 5,
+            "carbs": 15,
+            "meat": "None"
+        }
+    },
+    "dinner_menu": {
+        "NO SELECTION/SKIP": {
+            "calories": 0,
+            "protein": 0,
+            "fats": 0,
+            "carbs": 0,
+            "meat": "None"
+        },
+        "VEGAN BURGERS \n\n Calories: 600 | Protein: 30g | Fats: 30g ": {
+            "calories": 600,
+            "protein": 30,
+            "fats": 30,
+            "carbs": 50,
+            "meat": "Vegan"
+        },
+        "CREAMY TOFU \n\n Calories: 350 | Protein: 27g | Fats: 34g": {
+            "calories": 350,
+            "protein": 27,
+            "fats": 34,
+            "carbs": 45,
+            "meat": "Vegan"
+        },
+        "STIR FRIED VEGGIES \n\n Calories: 500 | Protein: 15g | Fats: 20g": {
+            "calories": 500,
+            "protein": 15,
+            "fats": 20,
+            "carbs": 35,
+            "meat": "Vegan"
+        },
+        "STEAK W/ MASH \n\n Calories: 850 | Protein: 55g | Fats: 60g": {
+            "calories": 850,
+            "protein": 55,
+            "fats": 60,
+            "carbs": 50,
+            "meat": "Beef"
+        },
+        "LASAGNA \n\n Calories: 550 | Protein: 32g | Fats: 42g": {
+            "calories": 550,
+            "protein": 32,
+            "fats": 42,
+            "carbs": 60,
+            "meat": "Pork"
+        },
+        "FETTUCINE ALFREDO \n\n Calories: 550 | Protein: 33g | Fats: 43": {
+            "calories": 550,
+            "protein": 33,
+            "fats": 43,
+            "carbs": 70,
+            "meat": "Chicken"
+        },
+        "CREAMY CHKN N RICE \n\n Calories: 690 | Protein: 50g | Fats: 65g ": {
+            "calories": 690,
+            "protein": 50,
+            "fats": 65,
+            "carbs": 70,
+            "meat": "Chicken"
+        },
+        "PAD THAI \n\n Calories: 560 | Protein: 23g | Fats: 36g": {
+            "calories": 560,
+            "protein": 23,
+            "fats": 36,
+            "carbs": 55,
+            "meat": "Beef"
+        },
+        "GREEN CURRY AND RICE \n\n Calories: 750 | Protein: 45g | Fats: 53g": {
+            "calories": 750,
+            "protein": 45,
+            "fats": 53,
+            "carbs": 60,
+            "meat": "Beef"
+        },
+        "SOY SALMON W/ KUMARA \n\n Calories: 700 | Protein: 50g | Fats: 60g": {
+            "calories": 700,
+            "protein": 50,
+            "fats": 60,
+            "carbs": 70,
+            "meat": "Fish"
+        },
+        "ROAST PORK W/ GRAVY \n\n Calories: 850 | Protein: 60g | Fats: 72g": {
+            "calories": 850,
+            "protein": 60,
+            "fats": 72,
+            "carbs": 80,
+            "meat": "Pork"
+        },
+        "CHKN TERIYAKI W RICE \n\n Calories: 700 | Protein: 54g | Fats: 69g": {
+            "calories": 700,
+            "protein": 54,
+            "fats": 69,
+            "carbs": 70,
+            "meat": "Chicken"
+        },
+        "FISH CEVICHE \n\n Calories: 500 | Protein: 30g | Fats: 42g": {
+            "calories": 500,
+            "protein": 30,
+            "fats": 42,
+            "carbs": 50,
+            "meat": "Fish"
+        },
+        "PULLED PORK SANDWICH \n\n Calories: 520 | Protein: 35g | Fats: 52g": {
+            "calories": 520,
+            "protein": 35,
+            "fats": 52,
+            "carbs": 60,
+            "meat": "Pork"
+        }
+    }
+}
