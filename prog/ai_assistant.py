@@ -23,21 +23,31 @@ class AIAssistant:
 
     def show(self):
         assistant_window = tk.Toplevel(self.root)
-        assistant_window.title("AI assistant")
+        assistant_window.title("CalorAI AI assistant")
         assistant_window.geometry("720x640")
         assistant_window.minsize(560, 480)
+        assistant_window.configure(bg='#eef3ee')
         assistant_window.transient(self.root)
         assistant_window.protocol("WM_DELETE_WINDOW", self.close)
         self.window = assistant_window
 
-        frame = ttk.Frame(assistant_window, padding=24)
+        style = ttk.Style(assistant_window)
+        style.theme_use('clam')
+        style.configure('CalorAIFrame.TFrame', background='#eef3ee')
+        style.configure('CalorAIButton.TButton', background='#2f4f43', foreground='white',
+                        font=('Segoe UI', 10, 'bold'), padding=(12, 8))
+        style.map('CalorAIButton.TButton', background=[('active', '#234132')],
+                  foreground=[('active', 'white')])
+
+        frame = ttk.Frame(assistant_window, padding=24, style='CalorAIFrame.TFrame')
         frame.pack(expand=True, fill="both")
 
-        ttk.Label(frame, text="AI assistant", style="Header.TLabel").pack(anchor="w")
+        ttk.Label(frame, text="CalorAI assistant", style="Header.TLabel").pack(anchor="w")
         ttk.Label(
             frame,
             text="Your selected meals and nutrition totals are sent to Gemini.",
             wraplength=560,
+            foreground='#53675e',
         ).pack(anchor="w", pady=(0, 10))
 
         conversation_frame = ttk.Frame(frame)

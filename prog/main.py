@@ -63,57 +63,88 @@ def meat_type_func(menu):
 
 
 def apply_theme(root):
-    """Style the program."""
-    style = ttk.Style(root)  # style root frame
-    style.theme_use('clam')  # prebuilded theme
-    teal = '#E0F7FA'
-    style.configure('TFrame', background=teal)  # Make entire program background teal
-    style.configure('TLabel', background=teal, font=('Segoe UI', 14, 'italic'),
-                    foreground='#2c3e50')  # Edt headings
-    style.configure('Header.TLabel', background=teal, font=('Segoe UI', 30, 'bold'),
-                    foreground='#2c3e50')  # Edit main heading
-    style.configure('TButton', font=('Segoe UI', 12),
-                    padding=10, background='#4DD0E1', foreground='#fff')  # Edit buttons
-    style.map('TButton', background=[('active', '#0097A7')],
-             foreground=[('active', '#fff')])  # Edit button on hover
-    style.configure('TEntry', font=('Segoe UI', 15))  # Set default font colours and font
-    style.configure('TCombobox', font=('Segoe UI', 12), padding=6)  # Edit dropdown box
+    """Style the program with a cleaner dashboard aesthetic."""
+    style = ttk.Style(root)
+    style.theme_use('clam')
 
-    """CUSTOM COMBOBOX STYLES"""
+    bg = '#eef3ee'
+    panel = '#f7f7f3'
+    white = '#ffffff'
+    pale_green = '#dfeadf'
+    deep_green = '#1f3b2e'
+    soft_green = '#6b8f6f'
+    soft_teal = '#dff3ef'
+    orange = '#f4b183'
+    red = '#e77a6d'
+    purple = '#b39ddb'
+    text = '#243127'
+    muted = '#68796f'
+    shadow = '#dfe6dc'
 
-    style.configure('Breakfast.TCombobox',
-        fieldbackground='#FFF8E1', background='#FFD54F',
-        foreground='#4527A0',font=('Segoe UI', 12, 'bold'),
-        padding=12)
+    root.configure(bg=bg)
 
-    style.configure('MorningTea.TCombobox',
-        fieldbackground='#E3F2FD', background='#90CAF9',
-        foreground='#01579B', font=('Segoe UI', 12),
-        padding=12)
-    
-    style.configure('Lunch.TCombobox',
-        fieldbackground='#F1F8E9', background='#AED581',
-        foreground='#33691E', font=('Segoe UI', 12, 'italic'),
-        padding=12)
-    
-    style.configure('Dessert.TCombobox',
-        fieldbackground='#F3E5F5', background='#CE93D8',
-        foreground='#6A1B9A', font=('Segoe UI', 12, 'bold'),
-        padding=12)
-    
-    style.configure('Dinner.TCombobox',
-        fieldbackground='#ECEFF1', background='#90A4AE',
-        foreground='#263238', font=('Segoe UI', 12),
-        padding=12)
-    
-    style.configure('MenuChoice.TCombobox',
-        fieldbackground='#FFECB3', background='#FFD54F',
-        foreground='#BF360C', font=('Segoe UI', 12, 'bold'),
-        padding=12)
+    style.configure('TFrame', background=bg)
+    style.configure('TLabel', background=bg, foreground=text, font=('Segoe UI', 11))
+    style.configure('Header.TLabel', background=bg, foreground=deep_green,
+                    font=('Segoe UI', 30, 'bold'))
+    style.configure('Brand.TLabel', background=bg, foreground=deep_green,
+                    font=('Segoe UI', 22, 'bold'))
+    style.configure('Subtle.TLabel', background=bg, foreground=muted,
+                    font=('Segoe UI', 10, 'bold'))
+    style.configure('CardTitle.TLabel', background=panel, foreground=deep_green,
+                    font=('Segoe UI', 10, 'bold'))
+    style.configure('MetricValue.TLabel', background=panel, foreground=deep_green,
+                    font=('Segoe UI', 28, 'bold'))
+    style.configure('MetricSubtitle.TLabel', background=panel, foreground=muted,
+                    font=('Segoe UI', 9))
+    style.configure('Panel.TFrame', background=panel)
+    style.configure('Sidebar.TFrame', background=white)
+    style.configure('Action.TButton', font=('Segoe UI', 10, 'bold'),
+                    padding=(12, 8), background='#2f4f43', foreground='white')
+    style.configure('Secondary.TButton', font=('Segoe UI', 10, 'bold'),
+                    padding=(12, 8), background='#edf2ee', foreground=deep_green)
+    style.configure('Pill.TButton', font=('Segoe UI', 9, 'bold'),
+                    padding=(10, 6), background='#e5efe6', foreground=deep_green)
+    style.map('Action.TButton', background=[('active', '#244536')],
+              foreground=[('active', 'white')])
+    style.map('Secondary.TButton', background=[('active', '#dfeadf')],
+              foreground=[('active', deep_green)])
+    style.map('Pill.TButton', background=[('active', '#d7e7d8')],
+              foreground=[('active', deep_green)])
+    style.configure('TEntry', font=('Segoe UI', 11), fieldbackground=white)
+    style.configure('TCombobox', font=('Segoe UI', 10), padding=6)
+    style.map('TCombobox', fieldbackground=[('readonly', white)])
+
+    style.configure('Breakfast.TCombobox', fieldbackground='#fff8e5', background='#f7d486',
+                    foreground='#3b2d1f', font=('Segoe UI', 10, 'bold'), padding=10)
+    style.configure('MorningTea.TCombobox', fieldbackground='#edf5ff', background='#b7d6f7',
+                    foreground='#173b52', font=('Segoe UI', 10), padding=10)
+    style.configure('Lunch.TCombobox', fieldbackground='#edf9ee', background='#b8d9a9',
+                    foreground='#234d2d', font=('Segoe UI', 10), padding=10)
+    style.configure('Dessert.TCombobox', fieldbackground='#f9edf9', background='#d9b4e8',
+                    foreground='#4c2f6d', font=('Segoe UI', 10, 'bold'), padding=10)
+    style.configure('Dinner.TCombobox', fieldbackground='#eef4f4', background='#c4d3d8',
+                    foreground='#1d2d33', font=('Segoe UI', 10), padding=10)
+    style.configure('MenuChoice.TCombobox', fieldbackground='#fff5ed', background='#ffd4b2',
+                    foreground='#653b16', font=('Segoe UI', 10, 'bold'), padding=10)
+
+    style.configure('DashboardCard.TFrame', background=panel)
+    style.configure('MealPanel.TFrame', background=white)
+    style.configure('SidebarButton.TButton', background='white', foreground=text,
+                    font=('Segoe UI', 10), padding=(16, 10))
+    style.map('SidebarButton.TButton', background=[('active', pale_green)])
+
+    root.option_add('*TCombobox*Listbox*Font', ('Segoe UI', 10))
+    root.option_add('*TCombobox*Listbox*Background', white)
+    root.option_add('*TCombobox*Listbox*Foreground', text)
 
 def on_selection_change(*args):
     """Change saved data when user changes it even while program runs."""
     save_selections()
+    try:
+        refresh_dashboard()
+    except NameError:
+        pass
 
 # Functions
 def calculation_and_graph():
@@ -373,51 +404,174 @@ def toggle_ai_assistant():
 
 def close_all_toggle_sections():
     """Close all other open sections."""
-    # For meal creation section
     if hasattr(create_custom_meal, "inputs_frame") and create_custom_meal.inputs_frame.winfo_exists():
         create_custom_meal.inputs_frame.destroy()
         del create_custom_meal.inputs_frame
-    # For meal deletion section
     if hasattr(delete_custom_meal, "frame") and delete_custom_meal.frame.winfo_exists():
         delete_custom_meal.frame.destroy()
         del delete_custom_meal.frame
-    # For calorie calculator section
     if hasattr(show_calorie_input, "frame") and show_calorie_input.frame.winfo_exists():
         show_calorie_input.frame.destroy()
         del show_calorie_input.frame
     assistant.close()
 
 
+def build_dashboard_summary():
+    """Create the dashboard cards and summary values used on the home screen."""
+    totals = {"calories": 0, "protein": 0, "fats": 0, "carbs": 0}
+    for menu, selection_var in zip(ALL_MENUS, selected_meals):
+        meal_name = selection_var.get()
+        if meal_name == "NO SELECTION/SKIP" or meal_name not in menu:
+            continue
+        meal_info = menu[meal_name]
+        for key in totals:
+            totals[key] += meal_info[key]
+
+    calories_left = MAX_CALORIES - totals["calories"]
+    total_macro = totals["protein"] + totals["fats"] + totals["carbs"]
+    protein_pct = (totals["protein"] / total_macro * 100) if total_macro else 0
+    carbs_pct = (totals["carbs"] / total_macro * 100) if total_macro else 0
+    fat_pct = (totals["fats"] / total_macro * 100) if total_macro else 0
+
+    return {
+        "calories_left": calories_left,
+        "protein": totals["protein"],
+        "fats": totals["fats"],
+        "carbs": totals["carbs"],
+        "protein_pct": protein_pct,
+        "carbs_pct": carbs_pct,
+        "fat_pct": fat_pct,
+        "calories_pct": max(0, min(100, (totals["calories"] / MAX_CALORIES) * 100)) if MAX_CALORIES else 0,
+    }
+
+
+def refresh_dashboard():
+    """Update the dashboard summary cards with live values."""
+    if 'dashboard_labels' not in globals():
+        return
+    summary = build_dashboard_summary()
+    dashboard_labels['calories_left'].config(text=f"{summary['calories_left']} kcal")
+    dashboard_labels['protein'].config(text=f"{summary['protein']} g")
+    dashboard_labels['fats'].config(text=f"{summary['fats']} g")
+    dashboard_labels['carbs'].config(text=f"{summary['carbs']} g")
+
+    for key in ['calories_left', 'protein', 'fats', 'carbs']:
+        dashboard_labels[key].configure(foreground='#1f3b2e')
+    if summary['calories_left'] < 0:
+        dashboard_labels['calories_left'].configure(foreground='#b85c52')
+
+    status_text = "On track" if summary['calories_left'] >= 0 else "Over target"
+    results.config(text=f"{status_text} • Daily goal: {MAX_CALORIES} kcal")
+
+    if 'dashboard_bars' in globals():
+        dashboard_bars['calories_left'].configure(value=summary['calories_pct'])
+        dashboard_bars['protein'].configure(value=min(100, summary['protein_pct']))
+        dashboard_bars['fats'].configure(value=min(100, summary['fat_pct']))
+        dashboard_bars['carbs'].configure(value=min(100, summary['carbs_pct']))
+
+
 # Main Program
-meat_types = [meat_type_func(each_menu) for each_menu in ALL_MENUS]  # Run meat_type_func func for all menus
+meat_types = [meat_type_func(each_menu) for each_menu in ALL_MENUS]
 
 root = tk.Tk()
-apply_theme(root)  # Run apply_theme at program start
+root.title("CalorAI")
+root.configure(bg='#eef3ee')
+root.minsize(1100, 700)
+apply_theme(root)
 
-# Center the main section of program (dropdwon boxes)
-main_frame = ttk.Frame(root)
-main_frame.pack(expand=True, fill='both', padx=0, pady=6)
+main_frame = ttk.Frame(root, padding=18)
+main_frame.pack(expand=True, fill='both')
+main_frame.grid_columnconfigure(0, weight=0)
+main_frame.grid_columnconfigure(1, weight=1)
 
-# Configuration of other frames
-left_frame = ttk.Frame(main_frame)
-right_frame = ttk.Frame(main_frame)
+sidebar = ttk.Frame(main_frame, style='Sidebar.TFrame', padding=(18, 20))
+sidebar.grid(row=0, column=0, sticky='ns', padx=(0, 18))
 
-main_frame.grid_anchor('center')
+content = ttk.Frame(main_frame, style='TFrame', padding=(8, 4))
+content.grid(row=0, column=1, sticky='nsew')
+content.grid_columnconfigure(0, weight=1)
 
-left_frame.grid(row=0, column=0, sticky="ns", padx=(0,36), pady=36)
-right_frame.grid(row=0, column=1, sticky="nsew", padx=(0,36), pady=36)
+brand_row = ttk.Frame(sidebar, style='Sidebar.TFrame')
+brand_row.pack(fill='x', pady=(0, 24))
 
-# Main heading
-ttk.Label(left_frame, text="Select Your Meals", style='Header.TLabel').pack(pady=(0,10))
+tk.Label(brand_row, text='C', bg='#f1c4d1', fg='#2b2b2b', font=('Segoe UI', 15, 'bold'), width=2, height=1, bd=0).pack(side='left', padx=(0, 10))
+tk.Label(brand_row, text='CalorAI', bg='white', fg='#20342d', font=('Segoe UI', 18, 'bold')).pack(side='left')
 
-# Dropdown boxes for each meal. Runs MealFunc class from meal.py to store data.
-breakfast = MealFunc(left_frame, "Breakfast:", menus["breakfast_menu"], meat_types[0], style="Breakfast.TCombobox", width=78)
-morning_tea = MealFunc(left_frame, "Morning Tea:", menus["morning_tea_menu"], meat_types[1], style="MorningTea.TCombobox", width=78)
-lunch = MealFunc(left_frame, "Lunch:", menus["lunch_menu"], meat_types[2], style="Lunch.TCombobox", width=78)
-dessert = MealFunc(left_frame, "Dessert:", menus["dessert_menu"], meat_types[3], style="Dessert.TCombobox", width=78)
-dinner = MealFunc(left_frame, "Dinner:", menus["dinner_menu"], meat_types[4], style="Dinner.TCombobox", width=78)
+nav_items = ["Overview", "AI Chat", "Meals", "History", "Profile"]
+for item in nav_items:
+    button_style = 'SidebarButton.TButton' if item == 'Overview' else 'TButton'
+    btn = ttk.Button(sidebar, text=item, style=button_style if item != 'Overview' else 'SidebarButton.TButton', command=lambda x=item: None)
+    btn.pack(fill='x', pady=4)
 
-# Set variables for easy configurate later
+sidebar_bottom = ttk.Frame(sidebar, style='Sidebar.TFrame')
+sidebar_bottom.pack(side='bottom', fill='x', pady=(28, 0))
+
+tk.Label(sidebar_bottom, text='Backed connected', bg='white', fg='#3a4c44', font=('Segoe UI', 9)).pack(anchor='w', pady=(0, 4))
+tk.Label(sidebar_bottom, text='Listening on localhost', bg='white', fg='#6b7f73', font=('Segoe UI', 8)).pack(anchor='w')
+
+# Main content layout
+header = ttk.Frame(content, style='TFrame')
+header.grid(row=0, column=0, sticky='ew', pady=(0, 16))
+header.grid_columnconfigure(0, weight=1)
+header.grid_columnconfigure(1, weight=0)
+
+ttk.Label(header, text='Good evening.', style='Header.TLabel').grid(row=0, column=0, sticky='w')
+
+tk.Label(header, text='Sunday 2 August', bg='#eef3ee', fg='#5f7669', font=('Segoe UI', 10)).grid(row=0, column=1, sticky='e')
+
+status_pill = ttk.Button(header, text='Daily target: 2,300 kcal', style='Pill.TButton')
+status_pill.grid(row=1, column=0, sticky='w', pady=(10, 0))
+
+cards = ttk.Frame(content, style='TFrame')
+cards.grid(row=1, column=0, sticky='ew', pady=(0, 18))
+for i in range(4):
+    cards.grid_columnconfigure(i, weight=1)
+
+metric_card_hold = []
+for _ in range(4):
+    card = ttk.Frame(cards, style='Panel.TFrame', padding=(18, 16))
+    card.grid(row=0, column=len(metric_card_hold), padx=(0, 12), sticky='ew')
+    metric_card_hold.append(card)
+
+summary_labels = {}
+dashboard_bars = {}
+metric_names = [
+    ('Calories left', 'calories_left', 'Daily target'),
+    ('Protein', 'protein', 'Goal progress'),
+    ('Fats', 'fats', 'Remaining balance'),
+    ('Carbs', 'carbs', 'Energy intake'),
+]
+for idx, (name, key, subtitle) in enumerate(metric_names):
+    card = metric_card_hold[idx]
+    ttk.Label(card, text=name, style='CardTitle.TLabel').pack(anchor='w')
+    value_label = ttk.Label(card, text='0 kcal', style='MetricValue.TLabel')
+    value_label.pack(anchor='w', pady=(6, 0))
+    ttk.Label(card, text=subtitle, style='MetricSubtitle.TLabel').pack(anchor='w', pady=(2, 0))
+    summary_labels[key] = value_label
+
+    progress = ttk.Progressbar(card, orient='horizontal', mode='determinate', length=180, maximum=100)
+    progress.pack(fill='x', pady=(10, 0))
+    dashboard_bars[key] = progress
+
+# Keep meal planner and history stacked with a modern dashboard feel
+main_dashboard = ttk.Frame(content, style='TFrame')
+main_dashboard.grid(row=2, column=0, sticky='nsew')
+main_dashboard.grid_columnconfigure(0, weight=1)
+main_dashboard.grid_columnconfigure(1, weight=0)
+
+# Left column: meal selection
+left_frame = ttk.Frame(main_dashboard, style='Panel.TFrame', padding=18)
+left_frame.grid(row=0, column=0, sticky='nsew', padx=(0, 16))
+left_frame.grid_columnconfigure(0, weight=1)
+
+ttk.Label(left_frame, text='Today’s meals', style='CardTitle.TLabel').pack(anchor='w', pady=(0, 12))
+
+breakfast = MealFunc(left_frame, 'Breakfast:', menus['breakfast_menu'], meat_types[0], style='Breakfast.TCombobox', width=46)
+morning_tea = MealFunc(left_frame, 'Morning Tea:', menus['morning_tea_menu'], meat_types[1], style='MorningTea.TCombobox', width=46)
+lunch = MealFunc(left_frame, 'Lunch:', menus['lunch_menu'], meat_types[2], style='Lunch.TCombobox', width=46)
+dessert = MealFunc(left_frame, 'Dessert:', menus['dessert_menu'], meat_types[3], style='Dessert.TCombobox', width=46)
+dinner = MealFunc(left_frame, 'Dinner:', menus['dinner_menu'], meat_types[4], style='Dinner.TCombobox', width=46)
+
 breakfast_preference, selected_breakfast = breakfast.selections()
 morning_tea_preference, selected_morning_tea = morning_tea.selections()
 lunch_preference, selected_lunch = lunch.selections()
@@ -425,30 +579,63 @@ dessert_preference, selected_dessert = dessert.selections()
 dinner_preference, selected_dinner = dinner.selections()
 
 selected_meals = [selected_breakfast, selected_morning_tea, selected_lunch,
-                  selected_dessert, selected_dinner]  # Store data for selected meals
+                  selected_dessert, selected_dinner]
 
 menu_map = {"breakfast_menu": breakfast, "morning_tea_menu": morning_tea,
-            "lunch_menu": lunch, "dessert_menu": dessert, 
+            "lunch_menu": lunch, "dessert_menu": dessert,
             "dinner_menu": dinner}
 
+for var in selected_meals:
+    var.trace_add('write', on_selection_change)
+load_selections()
 
-for var in selected_meals:  # For each selected meal
-    var.trace_add('write', on_selection_change)  # Overwrite saved meal
-load_selections()  # Run to avoid eror
+button_frame = ttk.Frame(left_frame, style='TFrame')
+button_frame.pack(fill='x', pady=(18, 0))
+
+calculate_btn = ttk.Button(button_frame, text='Calculate Nutrition', command=lambda: calculation_and_graph(), style='Action.TButton')
+calculate_btn.pack(fill='x', pady=3)
+
+ttk.Button(button_frame, text='Create Custom Meal', command=lambda: toggle_create_custom_meal(), style='Secondary.TButton').pack(fill='x', pady=3)
+ttk.Button(button_frame, text='Delete Custom Meal', command=lambda: toggle_delete_meal(), style='Secondary.TButton').pack(fill='x', pady=3)
+ttk.Button(button_frame, text='Set Max Calories', command=lambda: toggle_max_cal(), style='Secondary.TButton').pack(fill='x', pady=3)
+ttk.Button(button_frame, text='AI assistant', command=toggle_ai_assistant, style='Secondary.TButton').pack(fill='x', pady=3)
+
+results = ttk.Label(left_frame, text='', style='TLabel', foreground='#4d5d52', justify='left')
+results.pack(anchor='w', pady=(14, 0))
+
+# Right column: previous-day summary and AI card
+right_column = ttk.Frame(main_dashboard, style='TFrame')
+right_column.grid(row=0, column=1, sticky='nsew')
+right_column.grid_columnconfigure(0, weight=1)
+
+right_frame = ttk.Frame(right_column, style='Panel.TFrame', padding=(18, 16))
+right_frame.grid(row=0, column=0, sticky='nsew')
+
+history_panel = ttk.Frame(right_column, style='Panel.TFrame', padding=(18, 16))
+history_panel.grid(row=1, column=0, sticky='ew', pady=(16, 0))
+
+ttk.Label(history_panel, text='Previous days', style='CardTitle.TLabel').pack(anchor='w')
+for day, value in [('Mon', '1,840 kcal'), ('Tue', '1,920 kcal'), ('Wed', '1,760 kcal')]:
+    ttk.Label(history_panel, text=f'{day}: {value}', background='#f7f7f3', foreground='#3a4d45', font=('Segoe UI', 10)).pack(anchor='w', pady=(10, 0))
+
+ai_panel = ttk.Frame(right_column, style='Panel.TFrame', padding=(18, 16))
+ai_panel.grid(row=2, column=0, sticky='ew', pady=(16, 0))
+ttk.Label(ai_panel, text='AI coach', style='CardTitle.TLabel').pack(anchor='w')
+
+tk.Label(ai_panel, text='You are on track to finish the day in a healthy range.', bg='#f7f7f3', fg='#31473d', font=('Segoe UI', 11), justify='left', wraplength=220).pack(anchor='w', pady=(12, 10))
+
+ttk.Button(ai_panel, text='Open AI assistant', command=toggle_ai_assistant, style='Action.TButton').pack(fill='x')
+
+# add a premium mini summary in the chart area
+summary_chip = ttk.Label(right_frame, text='Calories in check', style='Subtle.TLabel', foreground='#3a4c44', background='#f7f7f3')
+summary_chip.pack(anchor='w', pady=(0, 12))
+
+# keep dashboard labels accessible for updates
+# the metric values are set from current selections at startup
 assistant = AIAssistant(root, api_key, get_ai_nutrition_context)
 
-# Show results and informaton data
-results = ttk.Label(left_frame, text="", style='TLabel', font=('Segoe UI', 11, 'italic'))
-results.pack(pady=(10,0))
-
-# Buttons
-button_frame = ttk.Frame(left_frame)  # Create frame inside of left_frame
-button_frame.pack(fill='x', pady=(20,20))
-ttk.Button(button_frame, text="Calculate Nutrition", command=lambda:calculation_and_graph()).pack(fill='x', pady=3)
-ttk.Button(button_frame, text="Create Custom Meal", command=lambda:toggle_create_custom_meal()).pack(fill='x', pady=3)
-ttk.Button(button_frame, text="Delete Custom Meal", command=lambda:toggle_delete_meal()).pack(fill='x', pady=3)
-ttk.Button(button_frame, text="Set Max Calories", command=lambda:toggle_max_cal()).pack(fill='x', pady=3)
-ttk.Button(button_frame, text="AI assistant", command=toggle_ai_assistant).pack(fill='x', pady=3)
+dashboard_labels = summary_labels
+refresh_dashboard()
 
 root.update_idletasks()
 window_width = root.winfo_reqwidth()
@@ -459,5 +646,5 @@ window_x = (screen_width - window_width) // 2
 window_y = (screen_height - window_height) // 2
 root.geometry(f"{window_width}x{window_height}+{window_x}+{window_y}")
 
-root.protocol("WM_DELETE_WINDOW", on_closing)  # Detect program's close, run data save to JSON.
+root.protocol("WM_DELETE_WINDOW", on_closing)
 root.mainloop()
