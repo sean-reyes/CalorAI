@@ -2,14 +2,9 @@ import tkinter as tk
 from tkinter import ttk
 import json
 import os
-import queue
-import threading
-import urllib.error
-import urllib.request
 from calculator import CalcFunc
 from meal import MealFunc
-# AI shit
-import os
+from ai_assistant import AIAssistant
 from dotenv import load_dotenv
 
 # This loads the variables from your .env file into the system
@@ -28,10 +23,6 @@ ALL_MENUS = [menus["breakfast_menu"], menus["morning_tea_menu"],
             menus["dinner_menu"],]
 
 custom_meals = []  # empty list to add custom meals
-ai_history = []
-ai_request_pending = False
-ai_active_request_id = 0
-ai_response_queue = queue.Queue()
 menu_dict = {"Breakfast": "breakfast_menu", 
             "Morning Tea": "morning_tea_menu",
             "Lunch": "lunch_menu", "Dessert": "dessert_menu",
@@ -378,219 +369,11 @@ def get_ai_nutrition_context():
         "available_meals": available_meals,
     }
 
-def append_ai_message(transcript, speaker, message):
-    transcript.configure(state="normal")
-    transcript.insert(tk.END, f"{speaker}:\n{message}\n\n")
-    transcript.configure(state="disabled")
-    transcript.see(tk.END)
-
-def send_ai_message(prompt_entry, send_button, status_label, transcript, frame):
-    """Send a meal-planning question to Gemini without blocking Tkinter."""
-    global ai_request_pending, ai_active_request_id
-    prompt = prompt_entry.get().strip()
-    if not prompt:
-        return
-    if ai_request_pending:
-        status_label.config(text="Please wait for the current reply.")
-        return
-
-    if not api_key:
-        status_label.config(text="Set the API Key environment variable to use AI assistant.")
-        return
-
-    ai_active_request_id += 1
-    request_id = ai_active_request_id
-    context = get_ai_nutrition_context()
-    system_instruction = (
-        "You are a practical meal-planning assistant. Use the calorie limit, remaining calories, "
-        "selected meals, and menu nutrition data below when making recommendations. Prefer foods "
-        "from the available menu and do not claim a meal fits the remaining budget if its listed "
-        "calories exceed it. If calories are already over the limit, say so plainly. Give concise, "
-        "general food suggestions and do not present them as medical advice.\n\n"
-        f"Current meal-planner data:\n{json.dumps(context, ensure_ascii=False)}"
-    )
-    user_entry = {
-        "role": "user",
-        "parts": [{"text": prompt}],
-        "display": prompt,
-    }
-    ai_history.append(user_entry)
-    contents = [
-        {"role": item["role"], "parts": item["parts"]}
-        for item in ai_history
-    ]
-
-    prompt_entry.delete(0, tk.END)
-    append_ai_message(transcript, "You", prompt)
-    send_button.configure(state="disabled")
-    status_label.configure(text="Please wait...")
-    ai_request_pending = True
-
-    def request_recommendation():
-        try:
-            endpoint = (
-                "https://generativelanguage.googleapis.com/v1beta/"
-                "models/gemini-3.8-flash:generateContent"
-            )
-            body = {
-                "systemInstruction": {"parts": [{"text": system_instruction}]},
-                "contents": contents,
-                "generationConfig": {"temperature": 0.4, "maxOutputTokens": 700},
-            }
-            request = urllib.request.Request(
-                endpoint,
-                data=json.dumps(body).encode("utf-8"),
-                headers={"Content-Type": "application/json", "x-goog-api-key": api_key},
-                method="POST",
-            )
-            with urllib.request.urlopen(request, timeout=20) as response:
-                result = json.loads(response.read().decode("utf-8"))
-            parts = result.get("candidates", [{}])[0].get("content", {}).get("parts", [])
-            answer = "\n".join(part.get("text", "") for part in parts).strip()
-            if not answer:
-                raise ValueError("Gemini returned no text. Try asking a different question.")
-            ai_response_queue.put((request_id, answer, None, user_entry, frame))
-        except urllib.error.HTTPError as error:
-            try:
-                error_body = json.loads(error.read().decode("utf-8"))
-                message = error_body.get("error", {}).get("message", str(error))
-            except Exception:
-                message = str(error)
-            ai_response_queue.put((request_id, None, f"Gemini API error: {message}", user_entry, frame))
-        except Exception as error:
-            ai_response_queue.put((request_id, None, f"Gemini request failed: {error}", user_entry, frame))
-
-    def finish_request(answer, error, sent_entry, request_frame):
-        global ai_request_pending
-        if request_id != ai_active_request_id or not ai_request_pending:
-            return
-        ai_request_pending = False
-        if error:
-            if ai_history and ai_history[-1] is sent_entry:
-                ai_history.pop()
-        else:
-            ai_history.append({
-                "role": "model",
-                "parts": [{"text": answer}],
-                "display": answer,
-            })
-
-        current_frame = getattr(show_ai_assistant, "frame", None)
-        if current_frame is not None and current_frame.winfo_exists():
-            show_ai_assistant.send_button.configure(state="normal")
-            if current_frame is request_frame:
-                if error:
-                    append_ai_message(show_ai_assistant.transcript, "Assistant", error)
-                    show_ai_assistant.status_label.configure(text="Request failed.")
-                else:
-                    append_ai_message(show_ai_assistant.transcript, "Gemini", answer)
-                    show_ai_assistant.status_label.configure(text="Ready")
-
-    def poll_for_response():
-        try:
-            response = ai_response_queue.get_nowait()
-        except queue.Empty:
-            if ai_request_pending and request_id == ai_active_request_id:
-                root.after(100, poll_for_response)
-            return
-        response_id, *response_data = response
-        if response_id != request_id:
-            if ai_request_pending and request_id == ai_active_request_id:
-                root.after(100, poll_for_response)
-            return
-        finish_request(*response_data)
-
-    def timeout_request():
-        if ai_request_pending and request_id == ai_active_request_id:
-            finish_request(
-                None,
-                "Gemini timed out after 30 seconds. Check your connection and API key, then retry.",
-                user_entry,
-                frame,
-            )
-
-    root.after(100, poll_for_response)
-    root.after(30000, timeout_request)
-    threading.Thread(target=request_recommendation, daemon=True).start()
-
-def show_ai_assistant():
-    """Display the Gemini meal-planning chat."""
-    hide_charts()
-    assistant_window = tk.Toplevel(root)
-    assistant_window.title("AI assistant")
-    assistant_window.geometry("720x640")
-    assistant_window.minsize(560, 480)
-    assistant_window.transient(root)
-    assistant_window.protocol(
-        "WM_DELETE_WINDOW",
-        lambda: toggle_ai_assistant(shown=True),
-    )
-    frame = ttk.Frame(assistant_window, padding=24)
-    show_ai_assistant.frame = assistant_window
-    frame.pack(expand=True, fill="both")
-
-    ttk.Label(frame, text="AI assistant", style="Header.TLabel").pack(anchor="w")
-    ttk.Label(
-        frame,
-        text="Your selected meals and nutrition totals are sent to Gemini.",
-        wraplength=560,
-    ).pack(anchor="w", pady=(0, 10))
-
-    conversation_frame = ttk.Frame(frame)
-    conversation_frame.pack(fill="both", expand=True)
-    scrollbar = ttk.Scrollbar(conversation_frame)
-    scrollbar.pack(side="right", fill="y")
-    transcript = tk.Text(
-        conversation_frame,
-        height=18,
-        width=64,
-        wrap="word",
-        state="disabled",
-        yscrollcommand=scrollbar.set,
-    )
-    transcript.pack(side="left", fill="both", expand=True)
-    scrollbar.configure(command=transcript.yview)
-    show_ai_assistant.transcript = transcript
-
-    for item in ai_history:
-        speaker = "You" if item["role"] == "user" else "Gemini"
-        append_ai_message(transcript, speaker, item.get("display", item["parts"][0]["text"]))
-
-    status_label = ttk.Label(frame, text="Ready")
-    status_label.pack(anchor="w", pady=(8, 4))
-    show_ai_assistant.status_label = status_label
-
-    input_frame = ttk.Frame(frame)
-    input_frame.pack(fill="x")
-    prompt_entry = ttk.Entry(input_frame)
-    prompt_entry.pack(side="left", fill="x", expand=True, padx=(0, 8))
-    send_button = ttk.Button(
-        input_frame,
-        text="Send",
-        command=lambda: send_ai_message(
-            prompt_entry, send_button, status_label, transcript, assistant_window
-        ),
-    )
-    send_button.pack(side="left")
-    show_ai_assistant.send_button = send_button
-    if ai_request_pending:
-        send_button.configure(state="disabled")
-        status_label.configure(text="Gemini is preparing a recommendation...")
-    prompt_entry.bind(
-        "<Return>",
-        lambda event: (send_button.invoke(), "break")[1],
-    )
-    ttk.Button(
-        frame,
-        text="Close",
-        command=lambda: toggle_ai_assistant(shown=True),
-    ).pack(anchor="e", pady=(8, 0))
-
-def toggle_ai_assistant(shown=False):
+def toggle_ai_assistant():
     """Open or close the meal-planning assistant."""
     close_all_toggle_sections()
-    if not shown:
-        show_ai_assistant()
+    hide_charts()
+    assistant.show()
 
 def close_all_toggle_sections():
     """Close all other open sections."""
@@ -606,10 +389,7 @@ def close_all_toggle_sections():
     if hasattr(show_calorie_input, "frame") and show_calorie_input.frame.winfo_exists():
         show_calorie_input.frame.destroy()
         del show_calorie_input.frame
-    # For the AI assistant
-    if hasattr(show_ai_assistant, "frame") and show_ai_assistant.frame.winfo_exists():
-        show_ai_assistant.frame.destroy()
-        del show_ai_assistant.frame
+    assistant.close()
 
 
 # Main Program
@@ -659,6 +439,7 @@ menu_map = {"breakfast_menu": breakfast, "morning_tea_menu": morning_tea,
 for var in selected_meals:  # For each selected meal
     var.trace_add('write', on_selection_change)  # Overwrite saved meal
 load_selections()  # Run to avoid eror
+assistant = AIAssistant(root, api_key, get_ai_nutrition_context)
 
 # Show results and informaton data
 results = ttk.Label(left_frame, text="", style='TLabel', font=('Segoe UI', 11, 'italic'))
