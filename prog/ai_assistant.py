@@ -35,7 +35,7 @@ class AIAssistant:
         style.theme_use('clam')
         style.configure('CalorAIFrame.TFrame', background='#252735')
         style.configure('CalorAIButton.TButton', background='#a8e760', foreground='#292a36',
-                        font=('Segoe UI', 10, 'bold'), padding=(12, 8))
+                        font=('Segoe UI Variable Text', 10, 'bold'), padding=(12, 8))
         style.map('CalorAIButton.TButton', background=[('active', '#b9f178')],
               foreground=[('active', '#292a36')])
 

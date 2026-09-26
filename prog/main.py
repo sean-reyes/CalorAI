@@ -12,6 +12,8 @@ from storage import (
 )
 from dotenv import load_dotenv
 
+UI_FONT = 'Segoe UI Variable Text'
+
 # This loads the variables from your .env file into the system
 load_dotenv()
 
@@ -35,6 +37,68 @@ menu_dict = {"Breakfast": "breakfast_menu",
             "Dinner": "dinner_menu"}
 menu_names = ["Breakfast", "Morning Tea", "Lunch",
             "Dessert","Dinner"]
+
+
+class RoundedCard(tk.Canvas):
+    """Canvas-backed card with a ttk content frame and rounded corners."""
+
+    def __init__(self, master, style_name, padding, fill, min_height=0, radius=14):
+        super().__init__(master, background='#252735', borderwidth=0,
+                         highlightthickness=0, width=180, height=min_height)
+        self._fill = fill
+        self._radius = radius
+        self._inset = 6
+        self._min_width = 180
+        self._min_height = min_height
+        self._height_job = None
+        self._shape_items = [
+            self.create_rectangle(0, 0, 0, 0, fill=fill, outline=''),
+            self.create_rectangle(0, 0, 0, 0, fill=fill, outline=''),
+            self.create_oval(0, 0, 0, 0, fill=fill, outline=''),
+            self.create_oval(0, 0, 0, 0, fill=fill, outline=''),
+            self.create_oval(0, 0, 0, 0, fill=fill, outline=''),
+            self.create_oval(0, 0, 0, 0, fill=fill, outline=''),
+        ]
+        self.content = ttk.Frame(self, style=style_name, padding=padding)
+        self._content_window = self.create_window(
+            self._inset, self._inset, anchor='nw', window=self.content
+        )
+        self.bind('<Configure>', self._resize_card)
+        self.content.bind('<Configure>', self._schedule_height_update)
+
+    def _resize_card(self, event):
+        width = max(event.width, 1)
+        height = max(event.height, 1)
+        radius = min(self._radius, width / 2, height / 2)
+        left, top = 0, 0
+        right, bottom = width, height
+        self.coords(self._shape_items[0], left + radius, top, right - radius, bottom)
+        self.coords(self._shape_items[1], left, top + radius, right, bottom - radius)
+        self.coords(self._shape_items[2], left, top, left + 2 * radius, top + 2 * radius)
+        self.coords(self._shape_items[3], right - 2 * radius, top, right, top + 2 * radius)
+        self.coords(self._shape_items[4], left, bottom - 2 * radius, left + 2 * radius, bottom)
+        self.coords(self._shape_items[5], right - 2 * radius, bottom - 2 * radius, right, bottom)
+        self.coords(self._content_window, self._inset, self._inset)
+        self.itemconfigure(self._content_window, width=max(1, width - 2 * self._inset))
+
+    def _schedule_height_update(self, _event=None):
+        if self._height_job is None:
+            self._height_job = self.after_idle(self._update_height)
+
+    def _update_height(self):
+        self._height_job = None
+        if not self.winfo_exists():
+            return
+        width = max(self._min_width, self.content.winfo_reqwidth() + 2 * self._inset)
+        height = max(self._min_height, self.content.winfo_reqheight() + 2 * self._inset)
+        if (int(float(self.cget('width'))) != width
+                or int(float(self.cget('height'))) != height):
+            self.configure(width=width, height=height)
+
+    def set_fill(self, fill):
+        self._fill = fill
+        for item in self._shape_items:
+            self.itemconfigure(item, fill=fill)
 
 def save_selections():
     """Persist data on program close."""
@@ -85,31 +149,31 @@ def apply_theme(root):
     root.configure(bg=bg)
 
     style.configure('TFrame', background=panel)
-    style.configure('TLabel', background=panel, foreground=text, font=('Segoe UI', 11))
+    style.configure('TLabel', background=panel, foreground=text, font=(UI_FONT, 11))
     style.configure('Outer.TFrame', background=bg)
     style.configure('Header.TLabel', background=panel, foreground=text,
-                    font=('Segoe UI', 30, 'bold'))
+                    font=(UI_FONT, 28, 'bold'))
     style.configure('Brand.TLabel', background=sidebar, foreground=text,
-                    font=('Segoe UI', 22, 'bold'))
+                    font=(UI_FONT, 20, 'bold'))
     style.configure('Subtle.TLabel', background=panel, foreground=muted,
-                    font=('Segoe UI', 10, 'bold'))
+                    font=(UI_FONT, 10, 'bold'))
     style.configure('CardTitle.TLabel', background=surface, foreground=text,
-                    font=('Segoe UI', 10, 'bold'))
+                    font=(UI_FONT, 10, 'bold'))
     style.configure('MetricValue.TLabel', background=surface, foreground=text,
-                    font=('Segoe UI', 28, 'bold'))
+                    font=(UI_FONT, 26, 'bold'))
     style.configure('MetricSubtitle.TLabel', background=surface, foreground=muted,
-                    font=('Segoe UI', 9))
+                    font=(UI_FONT, 9))
     style.configure('Panel.TFrame', background=surface)
     style.configure('Sidebar.TFrame', background=sidebar)
-    style.configure('TButton', font=('Segoe UI', 10), padding=(12, 8),
+    style.configure('TButton', font=(UI_FONT, 10), padding=(12, 8),
                     background=surface, foreground=text)
     style.map('TButton', background=[('active', '#414458')],
               foreground=[('active', text)])
-    style.configure('Action.TButton', font=('Segoe UI', 10, 'bold'),
+    style.configure('Action.TButton', font=(UI_FONT, 10, 'bold'),
                     padding=(12, 8), background=lime, foreground=ink)
-    style.configure('Secondary.TButton', font=('Segoe UI', 10, 'bold'),
+    style.configure('Secondary.TButton', font=(UI_FONT, 10, 'bold'),
                     padding=(12, 8), background=surface, foreground=text)
-    style.configure('Pill.TButton', font=('Segoe UI', 9, 'bold'),
+    style.configure('Pill.TButton', font=(UI_FONT, 9, 'bold'),
                     padding=(10, 6), background='#45465f', foreground=yellow)
     style.map('Action.TButton', background=[('active', '#b9f178')],
               foreground=[('active', ink)])
@@ -117,25 +181,25 @@ def apply_theme(root):
               foreground=[('active', text)])
     style.map('Pill.TButton', background=[('active', '#555574')],
               foreground=[('active', yellow)])
-    style.configure('TEntry', font=('Segoe UI', 11), fieldbackground=surface,
+    style.configure('TEntry', font=(UI_FONT, 11), fieldbackground=surface,
                     foreground=text, insertcolor=text)
-    style.configure('TCombobox', font=('Segoe UI', 10), padding=6,
+    style.configure('TCombobox', font=(UI_FONT, 10), padding=6,
                     fieldbackground=surface, foreground=text, arrowcolor=text)
     style.map('TCombobox', fieldbackground=[('readonly', surface)],
               foreground=[('readonly', text)])
 
     style.configure('Breakfast.TCombobox', fieldbackground='#fff0a6', background=yellow,
-                    foreground=ink, font=('Segoe UI', 10, 'bold'), padding=10)
+                    foreground=ink, font=(UI_FONT, 10, 'bold'), padding=10)
     style.configure('MorningTea.TCombobox', fieldbackground='#d9f5fb', background=cyan,
-                    foreground=ink, font=('Segoe UI', 10), padding=10)
+                    foreground=ink, font=(UI_FONT, 10), padding=10)
     style.configure('Lunch.TCombobox', fieldbackground='#e4f8c9', background=lime,
-                    foreground=ink, font=('Segoe UI', 10), padding=10)
+                    foreground=ink, font=(UI_FONT, 10), padding=10)
     style.configure('Dessert.TCombobox', fieldbackground='#eee2ff', background=lavender,
-                    foreground=ink, font=('Segoe UI', 10, 'bold'), padding=10)
+                    foreground=ink, font=(UI_FONT, 10, 'bold'), padding=10)
     style.configure('Dinner.TCombobox', fieldbackground='#ffe1cc', background=orange,
-                    foreground=ink, font=('Segoe UI', 10), padding=10)
+                    foreground=ink, font=(UI_FONT, 10), padding=10)
     style.configure('MenuChoice.TCombobox', fieldbackground='#eee2ff', background=lavender,
-                    foreground=ink, font=('Segoe UI', 10, 'bold'), padding=10)
+                    foreground=ink, font=(UI_FONT, 10, 'bold'), padding=10)
 
     metric_accents = {
         'Calories': (yellow, '#fff0a6'),
@@ -147,9 +211,9 @@ def apply_theme(root):
         accent, trough = accent_colors
         style.configure(f'{name}Card.TFrame', background=accent)
         for label_style, font in [
-            ('Title', ('Segoe UI', 10, 'bold')),
-            ('Value', ('Segoe UI', 28, 'bold')),
-            ('Subtitle', ('Segoe UI', 9)),
+            ('Title', (UI_FONT, 10, 'bold')),
+            ('Value', (UI_FONT, 26, 'bold')),
+            ('Subtitle', (UI_FONT, 9)),
         ]:
             foreground = '#4a4b58' if label_style == 'Subtitle' else ink
             style.configure(f'{name}{label_style}.TLabel', background=accent,
@@ -165,11 +229,11 @@ def apply_theme(root):
     style.configure('DashboardCard.TFrame', background=surface)
     style.configure('MealPanel.TFrame', background=surface)
     style.configure('SidebarButton.TButton', background=sidebar, foreground=text,
-                    font=('Segoe UI', 10), padding=(16, 10))
+                    font=(UI_FONT, 10), padding=(16, 10))
     style.map('SidebarButton.TButton', background=[('active', '#414458')],
               foreground=[('active', lime)])
 
-    root.option_add('*TCombobox*Listbox*Font', ('Segoe UI', 10))
+    root.option_add('*TCombobox*Listbox*Font', (UI_FONT, 10))
     root.option_add('*TCombobox*Listbox*Background', surface)
     root.option_add('*TCombobox*Listbox*Foreground', text)
 
@@ -481,6 +545,46 @@ def build_dashboard_summary():
     }
 
 
+def blend_hex_color(start_color, end_color, amount):
+    """Interpolate between two RGB colors."""
+    amount = max(0.0, min(1.0, amount))
+    start_rgb = tuple(int(start_color[index:index + 2], 16) for index in (1, 3, 5))
+    end_rgb = tuple(int(end_color[index:index + 2], 16) for index in (1, 3, 5))
+    mixed_rgb = tuple(round(start + (end - start) * amount)
+                      for start, end in zip(start_rgb, end_rgb))
+    return '#{:02x}{:02x}{:02x}'.format(*mixed_rgb)
+
+
+def update_calorie_warning(calories):
+    """Tint the calorie tile from yellow to red as intake reaches its limit."""
+    ratio = calories / MAX_CALORIES if MAX_CALORIES > 0 else 0
+    yellow, orange, red = '#f5dd68', '#ff9d67', '#ef707d'
+    light_yellow, light_orange, light_red = '#fff0a6', '#ffd4b5', '#f5b4bd'
+
+    if ratio <= 0.6:
+        card_color, track_color = yellow, light_yellow
+    elif ratio <= 0.85:
+        amount = (ratio - 0.6) / 0.25
+        card_color = blend_hex_color(yellow, orange, amount)
+        track_color = blend_hex_color(light_yellow, light_orange, amount)
+    else:
+        amount = min(1.0, (ratio - 0.85) / 0.15)
+        card_color = blend_hex_color(orange, red, amount)
+        track_color = blend_hex_color(light_orange, light_red, amount)
+
+    style = ttk.Style(root)
+    style.configure('CaloriesCard.TFrame', background=card_color)
+    for label_style in ['Title', 'Value', 'Subtitle']:
+        foreground = '#4a4b58' if label_style == 'Subtitle' else '#292a36'
+        style.configure(f'Calories{label_style}.TLabel',
+                        background=card_color, foreground=foreground)
+    style.configure('Calories.Horizontal.TProgressbar', background=card_color,
+                    troughcolor=track_color, bordercolor=card_color,
+                    lightcolor=card_color, darkcolor=card_color)
+    if 'metric_card_widgets' in globals():
+        metric_card_widgets['calories'].set_fill(card_color)
+
+
 def animate_calorie_total(target_calories):
     """Ease the calorie total and progress bar to their latest values."""
     global calorie_animation_id, displayed_calories
@@ -498,6 +602,7 @@ def animate_calorie_total(target_calories):
         eased_progress = 1 - (1 - progress) ** 3
         displayed_calories = start_calories + (target_calories - start_calories) * eased_progress
         dashboard_labels['calories'].configure(text=f"{round(displayed_calories):,} kcal")
+        update_calorie_warning(displayed_calories)
         calorie_percent = (displayed_calories / MAX_CALORIES * 100) if MAX_CALORIES else 0
         dashboard_bars['calories'].configure(value=max(0, min(100, calorie_percent)))
 
@@ -538,7 +643,7 @@ def refresh_dashboard():
         animate_calorie_total(summary['calories'])
 
 
-# Main Program
+# Main Program 
 meat_types = [meat_type_func(each_menu) for each_menu in ALL_MENUS]
 
 root = tk.Tk()
@@ -562,8 +667,8 @@ content.grid_columnconfigure(0, weight=1)
 brand_row = ttk.Frame(sidebar, style='Sidebar.TFrame')
 brand_row.pack(fill='x', pady=(0, 28))
 
-tk.Label(brand_row, text='C', bg='#bd9cf2', fg='#292a36', font=('Segoe UI', 15, 'bold'), width=2, height=1, bd=0).pack(side='left', padx=(0, 10))
-tk.Label(brand_row, text='CalorAI', bg='#2b2e3d', fg='#f3f2f8', font=('Segoe UI', 18, 'bold')).pack(side='left')
+tk.Label(brand_row, text='C', bg='#bd9cf2', fg='#292a36', font=(UI_FONT, 15, 'bold'), width=2, height=1, bd=0).pack(side='left', padx=(0, 10))
+tk.Label(brand_row, text='CalorAI', bg='#2b2e3d', fg='#f3f2f8', font=(UI_FONT, 18, 'bold')).pack(side='left')
 
 nav_items = ["Overview", "AI Chat", "Meals", "History", "Profile"]
 for item in nav_items:
@@ -574,8 +679,8 @@ for item in nav_items:
 sidebar_bottom = ttk.Frame(sidebar, style='Sidebar.TFrame')
 sidebar_bottom.pack(side='bottom', fill='x', pady=(28, 0))
 
-tk.Label(sidebar_bottom, text='Backed connected', bg='#2b2e3d', fg='#f3f2f8', font=('Segoe UI', 9)).pack(anchor='w', pady=(0, 4))
-tk.Label(sidebar_bottom, text='Listening on localhost', bg='#2b2e3d', fg='#b0b2c1', font=('Segoe UI', 8)).pack(anchor='w')
+tk.Label(sidebar_bottom, text='Backed connected', bg='#2b2e3d', fg='#f3f2f8', font=(UI_FONT, 9)).pack(anchor='w', pady=(0, 4))
+tk.Label(sidebar_bottom, text='Listening on localhost', bg='#2b2e3d', fg='#b0b2c1', font=(UI_FONT, 8)).pack(anchor='w')
 
 # Main content layout
 header = ttk.Frame(content, style='TFrame')
@@ -585,7 +690,7 @@ header.grid_columnconfigure(1, weight=0)
 
 ttk.Label(header, text='Welcome Back!', style='Header.TLabel').grid(row=0, column=0, sticky='w')
 
-tk.Label(header, text='Sunday 2 August', bg='#252735', fg='#b0b2c1', font=('Segoe UI', 10)).grid(row=0, column=1, sticky='e')
+tk.Label(header, text='Sunday 2 August', bg='#252735', fg='#b0b2c1', font=(UI_FONT, 10)).grid(row=0, column=1, sticky='e')
 
 status_pill = ttk.Button(header, text='Daily target: 2,300 kcal', style='Pill.TButton')
 status_pill.grid(row=1, column=0, sticky='w', pady=(10, 0))
@@ -596,8 +701,17 @@ for i in range(4):
     cards.grid_columnconfigure(i, weight=1)
 
 metric_card_hold = []
+metric_card_widgets = {}
+metric_card_fills = {
+    'Calories': '#f5dd68',
+    'Protein': '#70d2e8',
+    'Fats': '#ff9d67',
+    'Carbs': '#bd9cf2',
+}
 for card_style in ['Calories', 'Protein', 'Fats', 'Carbs']:
-    card = ttk.Frame(cards, style=f'{card_style}Card.TFrame', padding=(20, 18))
+    card = RoundedCard(cards, style_name=f'{card_style}Card.TFrame',
+                       padding=(20, 18), fill=metric_card_fills[card_style],
+                       min_height=152)
     card.grid(row=0, column=len(metric_card_hold), padx=(0, 14), sticky='ew')
     metric_card_hold.append(card)
 
@@ -610,7 +724,9 @@ metric_names = [
     ('Carbs', 'carbs', 'Energy intake', 'Carbs'),
 ]
 for idx, (name, key, subtitle, card_style) in enumerate(metric_names):
-    card = metric_card_hold[idx]
+    card_shell = metric_card_hold[idx]
+    card = card_shell.content
+    metric_card_widgets[key] = card_shell
     ttk.Label(card, text=name, style=f'{card_style}Title.TLabel').pack(anchor='w')
     value_label = ttk.Label(card, text='0 kcal', style=f'{card_style}Value.TLabel')
     value_label.pack(anchor='w', pady=(6, 0))
@@ -629,8 +745,10 @@ main_dashboard.grid_columnconfigure(0, weight=1)
 main_dashboard.grid_columnconfigure(1, weight=0)
 
 # Left column: meal selection
-left_frame = ttk.Frame(main_dashboard, style='Panel.TFrame', padding=22)
-left_frame.grid(row=0, column=0, sticky='nsew', padx=(0, 16))
+left_card = RoundedCard(main_dashboard, style_name='Panel.TFrame',
+                        padding=22, fill='#303343')
+left_card.grid(row=0, column=0, sticky='nsew', padx=(0, 16))
+left_frame = left_card.content
 left_frame.grid_columnconfigure(0, weight=1)
 
 ttk.Label(left_frame, text='Today’s meals', style='CardTitle.TLabel').pack(anchor='w', pady=(0, 16))
@@ -677,21 +795,27 @@ right_column = ttk.Frame(main_dashboard, style='TFrame')
 right_column.grid(row=0, column=1, sticky='nsew')
 right_column.grid_columnconfigure(0, weight=1)
 
-right_frame = ttk.Frame(right_column, style='Panel.TFrame', padding=(22, 20))
-right_frame.grid(row=0, column=0, sticky='nsew')
+chart_card = RoundedCard(right_column, style_name='Panel.TFrame',
+                         padding=(22, 20), fill='#303343', min_height=120)
+chart_card.grid(row=0, column=0, sticky='nsew')
+right_frame = chart_card.content
 
-history_panel = ttk.Frame(right_column, style='Panel.TFrame', padding=(22, 20))
-history_panel.grid(row=1, column=0, sticky='ew', pady=(18, 0))
+history_card = RoundedCard(right_column, style_name='Panel.TFrame',
+                           padding=(22, 20), fill='#303343')
+history_card.grid(row=1, column=0, sticky='ew', pady=(18, 0))
+history_panel = history_card.content
 
 ttk.Label(history_panel, text='Previous days', style='CardTitle.TLabel').pack(anchor='w')
 for day, value in [('Mon', '1,840 kcal'), ('Tue', '1,920 kcal'), ('Wed', '1,760 kcal')]:
-    ttk.Label(history_panel, text=f'{day}: {value}', background='#303343', foreground='#f3f2f8', font=('Segoe UI', 10)).pack(anchor='w', pady=(12, 0))
+    ttk.Label(history_panel, text=f'{day}: {value}', background='#303343', foreground='#f3f2f8', font=(UI_FONT, 10)).pack(anchor='w', pady=(12, 0))
 
-ai_panel = ttk.Frame(right_column, style='Panel.TFrame', padding=(22, 20))
-ai_panel.grid(row=2, column=0, sticky='ew', pady=(18, 0))
+ai_card = RoundedCard(right_column, style_name='Panel.TFrame',
+                       padding=(22, 20), fill='#303343')
+ai_card.grid(row=2, column=0, sticky='ew', pady=(18, 0))
+ai_panel = ai_card.content
 ttk.Label(ai_panel, text='AI coach', style='CardTitle.TLabel').pack(anchor='w')
 
-tk.Label(ai_panel, text='You are on track to finish the day in a healthy range.', bg='#303343', fg='#f3f2f8', font=('Segoe UI', 11), justify='left', wraplength=220).pack(anchor='w', pady=(14, 12))
+tk.Label(ai_panel, text='You are on track to finish the day in a healthy range.', bg='#303343', fg='#f3f2f8', font=(UI_FONT, 11), justify='left', wraplength=220).pack(anchor='w', pady=(14, 12))
 
 ttk.Button(ai_panel, text='Open AI assistant', command=toggle_ai_assistant, style='Action.TButton').pack(fill='x')
 
