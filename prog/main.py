@@ -841,3 +841,4 @@ root.geometry(f"{window_width}x{window_height}+{window_x}+{window_y}")
 
 root.protocol("WM_DELETE_WINDOW", on_closing)
 root.mainloop()
+#wait
