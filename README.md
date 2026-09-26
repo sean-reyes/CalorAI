@@ -116,4 +116,4 @@ The AI assistant sends the current selected meals, remaining calories and availa
 
 ## License
 
-This project is currently unlicensed. Add a license file if you intend to distribute or share it publicly.
+This project is currently unlicensed. (work in progress hold on)
