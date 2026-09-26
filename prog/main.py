@@ -1,10 +1,15 @@
 import tkinter as tk
 from tkinter import ttk
-import json
 import os
 from calculator import CalcFunc
 from meal import MealFunc
 from ai_assistant import AIAssistant
+from storage import (
+    load_menus,
+    load_selections as read_selections,
+    save_menus,
+    save_selections as write_selections,
+)
 from dotenv import load_dotenv
 
 # This loads the variables from your .env file into the system
@@ -12,8 +17,7 @@ load_dotenv()
 
 # Now you can pull the key safely into your code
 api_key = os.getenv("API_KEY")
-with open('menus.json', 'r') as f:
-    menus = json.load(f)
+menus = load_menus()
 
 """CONSTANTS"""
 MAX_CALORIES = 2300  # preset for maximum calories
@@ -33,8 +37,7 @@ menu_names = ["Breakfast", "Morning Tea", "Lunch",
 def save_selections():
     """Persist data on program close."""
     selections = [var.get() for var in selected_meals]  # for each selection
-    with open('last_selections.json', 'w') as f:  # open external JSON file
-        json.dump(selections, f)  # save selections in external JSON file
+    write_selections(selections)
 
 def on_closing():
     """Detect program close, run data persistence."""
@@ -43,14 +46,9 @@ def on_closing():
 
 def load_selections():
     """Load saved data from previous use of program."""
-    if os.path.exists('last_selections.json'):  # External JSON file exists?
-        with open('last_selections.json', 'r') as f:  # Open external JSON file
-            try:
-                selections = json.load(f)  # Extract saved selections from file
-                for var, value in zip(selected_meals, selections):
-                    var.set(value)  # Set each dropdown box with value from before
-            except Exception:
-                pass
+    selections = read_selections()
+    for var, value in zip(selected_meals, selections):
+        var.set(value)  # Set each dropdown box with value from before
 
 def meat_type_func(menu):
     """Run logic of filters in each meal."""
@@ -198,8 +196,7 @@ def process_inputs():
     chosen_menu = menu_dict[selected_menu_display]  # Store data of chosen menu
     new_meal = f"{name.upper()} (CUSTOM)\n\n Calories: {meal_info['calories']} | Protein: {meal_info['protein']}g | Fats: {meal_info['fats']}g"
     menus[chosen_menu][new_meal] = meal_info  # Access new meal's nut information
-    with open('menus.json', 'w') as f:  # Open external JSON file
-        json.dump(menus, f, indent=4)  # Add to JSON file for data pers
+    save_menus(menus)
     results.config(text=f"Customised meal '{name}' added to {selected_menu_display} menu.")
 
     global menu_map  # Access global meu map
@@ -263,8 +260,7 @@ def delete_custom_meal():
             results.config(text="No custom meal selected to delete.")
             return
         del menus[chosen_menu][meal_key]  # Delete custom meal from menu
-        with open('menus.json', 'w') as f:  # Open external JSON file
-            json.dump(menus, f, indent=4)  # Delete custom meal from JSON file
+        save_menus(menus)
         results.config(text=f"Deleted custom meal '{meal_key}' from {delete_menu_var.get()}.")
         global menu_map  # Access global menu map
         if chosen_menu in menu_map:  # If menu is appropriate
@@ -283,7 +279,7 @@ def toggle_delete_meal(shown=False):
         delete_custom_meal()  # Run meal deletion section
 
 def show_calorie_input():
-    """Calculate max calories of user using physical attrs."""
+    """Calculate max calories of user using physical attributes."""
 
     hide_charts()  # Close any open graphs
     # Create new frame for section
