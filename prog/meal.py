@@ -7,10 +7,10 @@ class MealFunc:
     def __init__(self, main_frame, meal_name, menu_values, meat_types, style="TCombobox", width=24):
         """Initialise (self initialise) attributes given."""
         self.meal_frame = ttk.Frame(main_frame)
-        self.meal_frame.pack(fill='x', pady=4)
+        self.meal_frame.pack(fill='x', pady=6)
 
         self.label = ttk.Label(self.meal_frame, text=meal_name)  # Meal titles
-        self.label.pack(anchor='w')
+        self.label.pack(anchor='w', pady=(0, 4))
 
         self.meat = tk.StringVar(value='None')  # None is the first option
         # Combobox for filters
@@ -22,7 +22,7 @@ class MealFunc:
             style=style,
             width=25
         )
-        self.filter_dropdown.pack(side='left', padx=(0, 10))
+        self.filter_dropdown.pack(side='left', padx=(0, 12))
 
         self.meal = tk.StringVar()
         self.meal_selection = ttk.Combobox(
@@ -33,7 +33,7 @@ class MealFunc:
             style=style,
             width=width
         )
-        self.meal_selection.pack(side='left', padx=(0, 10))
+        self.meal_selection.pack(side='left', padx=(0, 12))
 
         def filter(*args):
             preferred_meat = self.meat.get()

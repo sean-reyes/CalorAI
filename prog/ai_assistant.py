@@ -26,18 +26,18 @@ class AIAssistant:
         assistant_window.title("CalorAI AI assistant")
         assistant_window.geometry("720x640")
         assistant_window.minsize(560, 480)
-        assistant_window.configure(bg='#eef3ee')
+        assistant_window.configure(bg='#514d78')
         assistant_window.transient(self.root)
         assistant_window.protocol("WM_DELETE_WINDOW", self.close)
         self.window = assistant_window
 
         style = ttk.Style(assistant_window)
         style.theme_use('clam')
-        style.configure('CalorAIFrame.TFrame', background='#eef3ee')
-        style.configure('CalorAIButton.TButton', background='#2f4f43', foreground='white',
+        style.configure('CalorAIFrame.TFrame', background='#252735')
+        style.configure('CalorAIButton.TButton', background='#a8e760', foreground='#292a36',
                         font=('Segoe UI', 10, 'bold'), padding=(12, 8))
-        style.map('CalorAIButton.TButton', background=[('active', '#234132')],
-                  foreground=[('active', 'white')])
+        style.map('CalorAIButton.TButton', background=[('active', '#b9f178')],
+              foreground=[('active', '#292a36')])
 
         frame = ttk.Frame(assistant_window, padding=24, style='CalorAIFrame.TFrame')
         frame.pack(expand=True, fill="both")
@@ -47,7 +47,7 @@ class AIAssistant:
             frame,
             text="Your selected meals and nutrition totals are sent to Gemini.",
             wraplength=560,
-            foreground='#53675e',
+            foreground='#b0b2c1',
         ).pack(anchor="w", pady=(0, 10))
 
         conversation_frame = ttk.Frame(frame)
@@ -60,6 +60,13 @@ class AIAssistant:
             width=64,
             wrap="word",
             state="disabled",
+            background='#20222e',
+            foreground='#f3f2f8',
+            insertbackground='#f3f2f8',
+            selectbackground='#bd9cf2',
+            selectforeground='#292a36',
+            relief='flat',
+            borderwidth=0,
             yscrollcommand=scrollbar.set,
         )
         transcript.pack(side="left", fill="both", expand=True)

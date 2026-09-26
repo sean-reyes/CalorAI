@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.gridspec as gridspec
-TEAL = '#E0F7FA'
+CHART_BG = '#252735'
+CHART_TEXT = '#f3f2f8'
 
 RDI_PERCENTS = {'carbs': 0.4, 'fats': 0.3, 'protein': 0.3}
 
@@ -83,7 +84,7 @@ class CalcFunc:
                 return None
 
             # Set up custom layout: 2 rows, 2 columns (top row: pies, bottom: bar spans both)
-            fig = plt.figure(figsize=(7.5, 7.5), facecolor=TEAL)
+            fig = plt.figure(figsize=(7.5, 7.5), facecolor=CHART_BG)
             gs = gridspec.GridSpec(2, 2, height_ratios=[1, 1.2])
 
             # Pie charts (top row)
@@ -92,30 +93,36 @@ class CalcFunc:
             # Bar graph (bottom row, spans both columns)
             ax_bar = fig.add_subplot(gs[1, :])
 
-            # Set axes background to teal
+            # Match the dark dashboard surface and keep chart labels readable.
             for ax in [ax_pie1, ax_pie2, ax_bar]:
-                ax.set_facecolor(TEAL)
+                ax.set_facecolor(CHART_BG)
+                ax.tick_params(colors=CHART_TEXT)
+                ax.title.set_color(CHART_TEXT)
+                ax.xaxis.label.set_color(CHART_TEXT)
+                ax.yaxis.label.set_color(CHART_TEXT)
+                for spine in ax.spines.values():
+                    spine.set_color('#55586b')
 
             # FIRST CHART (CALORIES CONSUMED/REMAINING)
             if total_calories <= self.max_calories:
                 pie_one_labels = [f'Consumed: {total_calories} kcal',
                                   f'Left: {calories_remaining} kcal']
                 pie_one_sizes = [total_calories, calories_remaining]
-                pie_one_colours = ['#ff9999', '#8fd9b6']
+                pie_one_colours = ['#a8e760', '#bd9cf2']
             else:
                 exceeded = total_calories - self.max_calories
                 pie_one_labels = [f'Allowed: {self.max_calories} kcal',
                                   f'Exceeded: {exceeded} kcal']
                 pie_one_sizes = [self.max_calories, exceeded]
-                pie_one_colours = ['#ff9999', '#ff6666']
+                pie_one_colours = ['#a8e760', '#f18084']
             explode = (0.1, 0)
             ax_pie1.pie(
                 pie_one_sizes, labels=pie_one_labels,
                 colors=pie_one_colours, explode=explode,
-                startangle=90, wedgeprops={'edgecolor': '#4b4b4b',
-                                           'linewidth': 1}
+                startangle=90, textprops={'color': '#292a36'},
+                wedgeprops={'edgecolor': CHART_BG, 'linewidth': 1}
             )
-            ax_pie1.set_title("Calories Consumed vs Calories Left")
+            ax_pie1.set_title("Calories Consumed vs Calories Left", color=CHART_TEXT)
             ax_pie1.axis('equal')
 
             # SECOND CHART (TOTAL MACROS)
@@ -126,13 +133,13 @@ class CalcFunc:
             ]
             pie_two_sizes = [total_protein, total_fats, total_carbs]
             explode = (0.05, 0.05, 0.05)
-            pie_two_colours = ['#66b3ff', '#ffcc99', '#99ff99']
+            pie_two_colours = ['#70d2e8', '#ff9d67', '#a8e760']
             ax_pie2.pie(
                 pie_two_sizes, labels=pie_two_labels,
                 colors=pie_two_colours, startangle=90,
-                explode=explode, wedgeprops={'edgecolor': '#4b4b4b',
-                                             'linewidth': 1})
-            ax_pie2.set_title("Total Macros")
+                explode=explode, textprops={'color': '#292a36'},
+                wedgeprops={'edgecolor': CHART_BG, 'linewidth': 1})
+            ax_pie2.set_title("Total Macros", color=CHART_TEXT)
             ax_pie2.axis('equal')
 
             # THIRD CHART (CONSUMED/RDI COMPARISON)
@@ -141,13 +148,15 @@ class CalcFunc:
             macronutrients = [total_carbs, total_fats, total_protein]
             rdi_macros = [rdi["carbs"], rdi["fats"], rdi["protein"]]
             x = np.arange(len(labels))
-            ax_bar.bar(x - width / 2, macronutrients, width, label='Total Consumed')
-            ax_bar.bar(x + width / 2, rdi_macros, width, label='Recommended Daily Intake')
-            ax_bar.set_ylabel('Macros')
-            ax_bar.set_title('Macro Comparison')
+            ax_bar.bar(x - width / 2, macronutrients, width, label='Total Consumed', color='#a8e760')
+            ax_bar.bar(x + width / 2, rdi_macros, width, label='Recommended Daily Intake', color='#bd9cf2')
+            ax_bar.set_ylabel('Macros', color=CHART_TEXT)
+            ax_bar.set_title('Macro Comparison', color=CHART_TEXT)
             ax_bar.set_xticks(x)
             ax_bar.set_xticklabels(labels)
-            ax_bar.legend(['Total Consumed', 'Recommended Daily Intake'])
+            ax_bar.legend(['Total Consumed', 'Recommended Daily Intake'],
+                          facecolor='#303343', edgecolor='#55586b',
+                          labelcolor=CHART_TEXT)
 
             fig.tight_layout(rect=[0, 0, 1, 1])  # leave no extra margin
 
@@ -161,7 +170,7 @@ class CalcFunc:
 
             # Embed in Tkinter
             canvas_widget = self.charts.get_tk_widget()
-            canvas_widget.config(bg=TEAL, highlightthickness=0)
+            canvas_widget.config(bg=CHART_BG, highlightthickness=0)
             canvas_widget.grid(row=0, column=0, sticky="nsew")
             return self.charts
 
