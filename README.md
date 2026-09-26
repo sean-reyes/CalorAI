@@ -12,3 +12,7 @@ _A fitness app that finally works. No more guessing, let AI do the work for you.
 - Dynamic Swap: Don't like a suggested meal? Swap individual meals on the fly without breaking your daily macro balance.
 
 - Smart Grocery List: Automatically aggregates ingredients across weekly meal plans into categorized shopping lists.
+
+
+
+##(WIP)
