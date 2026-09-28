@@ -1,4 +1,4 @@
-# CalorAI: An AI fitness app
+# CalorAI: An AI fitness app 
 _A fitness app that finally works. No more guessing, let AI do the work for you._
 
 ## Overview
